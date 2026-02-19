@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdullah Khan | Software Engineer</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #ffffff;
+            --secondary: #a1a1a1;
+            --accent: #007AFF;
+            /* Apple-style Blue */
+            --bg: #000000;
+            --card-bg: #111111;
+            --border: #222222;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Project Cards */
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            height: 100%;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: #333;
+        }
+
+        .img-container {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+        }
+
+        .project-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(40%);
+            transition: 0.5s;
+        }
+
+        .project-card:hover .project-img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        .project-body {
+            padding: 25px;
+            flex-grow: 1;
+        }
+
+        .project-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--highlight);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .project-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .project-desc {
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .btn-view {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .btn-view:hover {
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        /* --- Navigation --- */
+        /* Enhanced Navbar Styles */
+        .navbar {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: black;
+            /* Start transparent, GSAP will handle scroll opacity */
+            padding-top: 20px;
+
+        }
+
+        /* Glassmorphism effect when scrolling (handled via GSAP or CSS) */
+        .navbar.scrolled {
+            background: rgba(0, 0, 0, 0.7) !important;
+            backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%);
+            padding-top: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .navbar-brand {
+            font-size: 1.25rem;
+            letter-spacing: -0.5px;
+
+        }
+
+        /* Subtle underline hover effect */
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 0 !important;
+            margin: 0 15px !important;
+            color: white !important;
+
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1.5px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+
+        /* --- Hero --- */
+        .hero {
+            padding: 160px 0 100px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .badge-tech {
+            background: #111;
+            border: 1px solid #333;
+            color: var(--accent);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .text-gradient {
+            background: linear-gradient(180deg, #fff 0%, #555 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- Grid Layouts --- */
+        .section-header {
+            margin-bottom: 60px;
+        }
+
+        .section-header span {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .card-project {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            height: 100%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+
+        .card-project:hover {
+            border-color: #444;
+            transform: translateY(-5px);
+            background: #161616;
+        }
+
+        .card-project img {
+            border-radius: 8px;
+            margin-bottom: 20px;
+            filter: grayscale(20%);
+        }
+
+        .skill-box {
+            background: #0a0a0a;
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        /* --- Contact --- */
+        .form-control {
+            background: #0a0a0a;
+            border: 1px solid var(--border);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .form-control:focus {
+            background: #111;
+            border-color: var(--accent);
+            box-shadow: none;
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: black;
+            border: none;
+            font-weight: 700;
+            padding: 12px 30px;
+            border-radius: 8px;
+        }
+
+        footer {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+        }
+
+
+        .skill-box {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            color: #e0e0e0;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+
+        /* SKILLS */
+
+
+        .skill-box:hover {
+            border-color: #007AFF;
+            color: #007AFF;
+            transform: translateY(-2px);
+            background: rgba(0, 122, 255, 0.05);
+        }
+
+        .skill-group {
+            transition: transform 0.3s ease;
+        }
+
+        .skill-group:hover {
+            transform: translateY(-5px);
+            border-color: #333 !important;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .skill-group {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top px-3">
+        <div class="container">
+            <a class="navbar-brand text-white fw-bold" href="#">
+                AK<span style="color: var(--accent)">.</span>
+            </a>
+
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#nav">
+                <span class="text-white"><i class="fas fa-bars"></i></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projects">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#skills">Expertise</a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn-view" href="./assets/My Resumee.pdf" download="Abdullah-Khan-Resume"
+                           target="_blank" style="padding: 8px 20px;">
+                            <i class="fas fa-download me-2"></i>Resume
+                        </a>
+                        
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <div class="badge-tech">Open for Remote & Freelance Projects</div>
+            <h1 class="text-gradient">Abdullah Khan.<br>Front-End Developer.</h1>
+            <p class="lead text-secondary mt-4 mb-5 col-lg-6">
+                Specializing in building robust web architectures with
+                <span class="text-white">PHP, Laravel, and Modern JavaScript</span>.
+                Focused on performance and clean user interfaces.
+            </p>
+            <div class="d-flex gap-3">
+                <a href="#projects" class="btn btn-primary">View Projects</a>
+                <a href="#contact" class="btn btn-outline-light px-4">Let's Talk</a>
+            </div>
+        </div>
+    </header>
+    <section id="about" class="container mt-5 pt-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="section-header">
+                    <span>01 // BIOGRAPHY</span>
+                    <h2 class="fw-800 display-5 mt-2">Engineering with <br><span
+                            style="color: var(--secondary-text)">Purpose.</span></h2>
+                </div>
+                <p class="text-secondary mt-4 lead">
+                    I am a Junior Front-End Developer and Web Designer based in Karachi, Pakistan. I specialize in
+                    turning complex problems into elegant, functional digital solutions.
+                </p>
+                <p class="text-secondary mt-3">
+                    My approach combines the logic of back-end architecture with the aesthetics of modern UI design.
+                    Whether it's a high-performance e-commerce platform or a creative personal site, I focus on
+                    delivering seamless user experiences.
+                </p>
+
+                <div class="row mt-5 g-4">
+                    <div class="col-6 col-md-4">
+                        <h4 class="fw-800 mb-0">20+</h4>
+                        <small class="text-secondary text-uppercase"
+                            style="font-size: 0.7rem; letter-spacing: 1px;">Projects</small>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <h4 class="fw-800 mb-0">100%</h4>
+                        <small class="text-secondary text-uppercase"
+                            style="font-size: 0.7rem; letter-spacing: 1px;">Clean Code</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5 offset-lg-1 mt-5 mt-lg-0">
+                <div
+                    style="background: var(--card-bg); border: 1px solid var(--border); padding: 40px; border-radius: 24px;">
+                    <h5 class="fw-bold mb-4" style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">TECH
+                        STACK</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-3 d-flex justify-content-between">
+                            <span class="text-secondary">Frontend</span>
+                            <span class="fw-bold">React, JS, BS5</span>
+                        </li>
+                        <li class="mb-3 d-flex justify-content-between">
+                            <span class="text-secondary">Backend</span>
+                            <span class="fw-bold">PHP, Laravel</span>
+                        </li>
+                        <li class="mb-3 d-flex justify-content-between">
+                            <span class="text-secondary">Database</span>
+                            <span class="fw-bold">MySQL, SQL</span>
+                        </li>
+                        <li class="mb-0 d-flex justify-content-between">
+                            <span class="text-secondary">Design</span>
+                            <span class="fw-bold">Figma, UI/UX</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="projects" class="container mt-5 pt-5">
+        <div class="section-header">
+            <span>02 // PROJECTS</span>
+            <h2 class="fw-800 mt-2">Recent Projects</h2>
+        </div>
+
+        <div class="row g-4 mt-2" id="project-grid">
+            <div class="col-md-6 col-lg-4">
+                <div class="project-card">
+                    <div class="img-container">
+                        <img src="./assets/fts.png" class="project-img" alt="Forge Tech">
+                    </div>
+                    <div class="project-body p-4">
+                        <span class="project-tag">Frontend / JS / Bootstrap</span>
+                        <h4 class="project-title fw-bold">FORGE TECH SOLUTIONS</h4>
+                        <p class="project-desc text-secondary small">Includes a hero section, product cards with 'add to
+                            cart', marquee elements, and API integration.</p>
+                        <a href="https://forge-tech.vercel.app/" target="_blank" class="btn-view">Live Preview <i
+                                class="fas fa-external-link-alt ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="project-card">
+                    <div class="img-container">
+                        <img src="./assets/smm-project.png" class="project-img" alt="SMM World">
+                    </div>
+                    <div class="project-body p-4">
+                        <span class="project-tag">Bootstrap 3 / Responsive</span>
+                        <h4 class="project-title fw-bold">SMM-WORLD</h4>
+                        <p class="project-desc text-secondary small">A responsive social media panel UI designed for
+                            seamless navigation and mobile-friendly usage.</p>
+                        <a href="https://smm-world.vercel.app/" target="_blank" class="btn-view">Live Preview <i
+                                class="fas fa-external-link-alt ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="project-card">
+                    <div class="img-container">
+                        <img src="./assets/Trendoza-Project.png" class="project-img" alt="Trendoza">
+                    </div>
+                    <div class="project-body p-4">
+                        <span class="project-tag">WordPress / E-commerce</span>
+                        <h4 class="project-title fw-bold">TRENDOZA ORIGINALS</h4>
+                        <p class="project-desc text-secondary small">Features product listings, cart, checkout, and
+                            secure payment integration for a professional store.</p>
+                        <a href="https://dev-trendoza.pantheonsite.io/" target="_blank" class="btn-view">Live Preview <i
+                                class="fas fa-external-link-alt ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="project-card">
+                    <div class="img-container">
+                        <img src="./assets/b1.png" class="project-img" alt="Alpha Store">
+                    </div>
+                    <div class="project-body p-4">
+                        <span class="project-tag">PHP / MySQL / Backend</span>
+                        <h4 class="project-title fw-bold">ALPHA STORE</h4>
+                        <p class="project-desc text-secondary small">Dynamic e-commerce site featuring listings, secure
+                            checkout, and full order history tracking.</p>
+                        <a href="https://azstore.free.nf/" target="_blank" class="btn-view">Live Preview <i
+                                class="fas fa-external-link-alt ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="project-card">
+                    <div class="img-container">
+                        <img src="./assets/b2.png" class="project-img" alt="Covid Testing">
+                    </div>
+                    <div class="project-body p-4">
+                        <span class="project-tag">PHP / MySQL / HealthTech</span>
+                        <h4 class="project-title fw-bold">COVID TESTING SYSTEM</h4>
+                        <p class="project-desc text-secondary small">Enables appointment booking and result tracking
+                            between hospitals and patients.</p>
+                        <a href="https://covidtestingsystem.free.nf/" target="_blank" class="btn-view">Live Preview <i
+                                class="fas fa-external-link-alt ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="project-card">
+                    <div class="img-container">
+                        <img src="./assets/P4.png" class="project-img" alt="Art by Fatima">
+                    </div>
+                    <div class="project-body p-4">
+                        <span class="project-tag">HTML / CSS / JS</span>
+                        <h4 class="project-title fw-bold">ART BY FATIMA</h4>
+                        <p class="project-desc text-secondary small">One-page responsive site with dark mode and direct
+                            ordering via WhatsApp and Instagram.</p>
+                        <a href="https://kkabdull247.github.io/art/" target="_blank" class="btn-view">Live Preview <i
+                                class="fas fa-external-link-alt ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 project-hidden d-none">
+                <div class="project-card">
+                    <div class="img-container">
+                        <img src="./assets/P4.png" class="project-img" alt="Service Hub">
+                    </div>
+                    <div class="project-body p-4">
+                        <span class="project-tag">PHP / MySQL / Booking</span>
+                        <h4 class="project-title fw-bold">SERVICE HUB</h4>
+                        <p class="project-desc text-secondary small">Platform for seamless service bookings with secure
+                            login and a user-friendly frontend.</p>
+                        <a href="https://servicehub.000.pe/" target="_blank" class="btn-view">Live Preview <i
+                                class="fas fa-external-link-alt ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 project-hidden d-none">
+                <div class="project-card">
+                    <div class="img-container">
+                        <img src="./assets/P4.png" class="project-img" alt="Snake Game">
+                    </div>
+                    <div class="project-body p-4">
+                        <span class="project-tag">JavaScript / Game Dev</span>
+                        <h4 class="project-title fw-bold">SNAKE GAME</h4>
+                        <p class="project-desc text-secondary small">Classic game featuring smooth controls, score
+                            tracking, and custom animations.</p>
+                        <a href="https://kkabdull247.github.io/snake2/" target="_blank" class="btn-view">Live Preview <i
+                                class="fas fa-external-link-alt ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <button id="view-more-btn" class="btn btn-outline-light px-5 py-3 fw-bold"
+                style="border-radius: 12px; border-color: #1a1a1a;">
+                View All Projects
+            </button>
+        </div>
+    </section>
+
+
+    <section id="skills" class="py-5"
+        style="background-color: #0a0a0a; border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a;">
+        <div class="container py-5">
+            <div class="row mb-5">
+                <div class="col-lg-8">
+                    <div class="section-header">
+                        <span
+                            style="font-family: 'JetBrains Mono', monospace; color: #007AFF; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;">03
+                            // EXPERTISE</span>
+                        <h2 class="display-5 fw-bold text-white mt-2"
+                            style="font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -2px;">Technical Stack
+                        </h2>
+                        <p class="text-secondary mt-3">A comprehensive toolkit specialized in building high-performance
+                            web applications and scalable e-commerce solutions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="skill-group p-4"
+                        style="background: #000; border: 1px solid #1a1a1a; border-radius: 20px; height: 100%;">
+                        <div class="mb-4">
+                            <i class="fas fa-layer-group text-primary mb-3" style="font-size: 1.5rem;"></i>
+                            <h5 class="text-white fw-bold">Frontend Engineering</h5>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="skill-box">HTML5</span>
+                            <span class="skill-box">CSS3 / SASS</span>
+                            <span class="skill-box">JavaScript (ES6+)</span>
+                            <span class="skill-box">React.js</span>
+                            <span class="skill-box">Bootstrap 5</span>
+                            <span class="skill-box">Tailwind CSS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="skill-group p-4"
+                        style="background: #000; border: 1px solid #1a1a1a; border-radius: 20px; height: 100%;">
+                        <div class="mb-4">
+                            <i class="fas fa-server text-primary mb-3" style="font-size: 1.5rem;"></i>
+                            <h5 class="text-white fw-bold">Backend & DB</h5>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="skill-box">PHP 8.x</span>
+                            <span class="skill-box">Laravel Framework</span>
+                            <span class="skill-box">MySQL</span>
+                            <span class="skill-box">REST APIs</span>
+                            <span class="skill-box">SQL Management</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="skill-group p-4"
+                        style="background: #000; border: 1px solid #1a1a1a; border-radius: 20px; height: 100%;">
+                        <div class="mb-4">
+                            <i class="fas fa-shopping-bag text-primary mb-3" style="font-size: 1.5rem;"></i>
+                            <h5 class="text-white fw-bold">CMS & E-commerce</h5>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="skill-box">WordPress</span>
+                            <span class="skill-box">Shopify</span>
+                            <span class="skill-box">WooCommerce</span>
+                            <span class="skill-box">Elementor Pro</span>
+                            <span class="skill-box">Theme Customization</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="p-3 d-flex flex-wrap align-items-center justify-content-center gap-4"
+                        style="background: #000; border: 1px solid #1a1a1a; border-radius: 12px;">
+                        <span class="text-secondary small text-uppercase"
+                            style="font-family: 'JetBrains Mono', monospace; letter-spacing: 1px;">Workflow
+                            Tools:</span>
+                        <div class="skill-box">Git & GitHub</div>
+                        <div class="skill-box">Figma</div>
+                        <div class="skill-box">NPM / Composer</div>
+                        <div class="skill-box">Vercel</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+
+    </style>
+
+    <section id="contact" class="py-5">
+        <div class="container">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-md-5">
+                    <div class="section-header">
+                        <span>04 // CONTACT</span>
+                        <h2 class="fw-bold mt-2">Start a conversation.</h2>
+                    </div>
+                    <p class="text-secondary">Have a project in mind or looking to hire? I'm usually available for new
+                        collaborations.</p>
+                    <div class="mt-4">
+                        <p class="mb-1 small text-secondary">Email me at</p>
+                        <h5 class="text-white">kkabdullah24@gmail.com</h5>
+                        <p class="mb-1 small text-secondary">WhatsApp</p>
+                        <h5 class="text-white">+923331279569</h5>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <form action="https://formsubmit.co/kkabdull98@gmail.com" method="POST" class="mt-4 mt-md-0">
+                        <input type="text" class="form-control mb-3" placeholder="Full Name" required>
+                        <input type="email" class="form-control mb-3" placeholder="Email Address" required>
+                        <textarea class="form-control mb-3" rows="4" placeholder="How can I help you?"
+                            required></textarea>
+                        <button class="btn btn-primary w-100">Send Inquiry</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container text-center">
+            <div class="d-flex justify-content-center gap-4 mb-4">
+                <a href="https://github.com/kkabdull247" class="text-white"><i class="fab fa-github fa-lg"></i></a>
+                <a href="https://linkedin.com/in/abdullah-khan-258504253/" class="text-white"><i
+                        class="fab fa-linkedin fa-lg"></i></a>
+                <a href="https://wa.me/03331279569" class="text-white"><i class="fab fa-whatsapp fa-lg"></i></a>
+            </div>
+            <p>© 2026 Abdullah Khan — Built for performance.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        // Register the plugin
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. Initial Hero Entrance (Professional Stagger)
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline({ defaults: { ease: "power3.out", duration: 1 } });
+
+            tl.from(".navbar", { y: -20, opacity: 0, duration: 0.8 })
+                .from(".badge-tech", { y: 20, opacity: 0 }, "-=0.4")
+                .from(".text-gradient", { y: 30, opacity: 0 }, "-=0.6")
+                .from(".hero .lead", { y: 20, opacity: 0 }, "-=0.7")
+                .from(".hero .btn", { y: 15, opacity: 0, stagger: 0.2 }, "-=0.8");
+        });
+
+        // 2. Section Headers Reveal
+        gsap.utils.toArray('.section-header').forEach(header => {
+            gsap.from(header, {
+                scrollTrigger: {
+                    trigger: header,
+                    start: "top 90%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 0,
+                y: 30,
+                duration: 1,
+                ease: "power2.out"
+            });
+        });
+
+        // 3. Biography Section Content
+        gsap.from("#about .lead, #about p, #about .row.mt-5", {
+            scrollTrigger: {
+                trigger: "#about",
+                start: "top 75%"
+            },
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            stagger: 0.2
+        });
+
+        // 4. Tech Stack Box (Right side of About)
+        gsap.from("#about .col-lg-5 div", {
+            scrollTrigger: {
+                trigger: "#about .col-lg-5",
+                start: "top 80%"
+            },
+            opacity: 0,
+            x: 30,
+            duration: 1,
+            ease: "power3.out"
+        });
+
+        // 5. Project Cards Grid (Smooth staggered lift)
+        // gsap.from(".project-card", {
+        //     scrollTrigger: {
+        //         trigger: "#project-grid",
+        //         start: "top 85%"
+        //     },
+        //     opacity: 0,
+        //     y: 40,
+        //     duration: 0.8,
+        //     stagger: 0.15,
+        //     ease: "power2.out"
+        // });
+
+        // // 6. Skill Groups (Expertise Section)
+        // gsap.from(".skill-group", {
+        //     scrollTrigger: {
+        //         trigger: "#skills",
+        //         start: "top 80%"
+        //     },
+        //     opacity: 0,
+        //     y: 20,
+        //     duration: 0.7,
+        //     stagger: 0.1,
+        //     ease: "power1.out"
+        // });
+
+        // 7. Contact Form Slide-in
+        gsap.from("#contact form", {
+            scrollTrigger: {
+                trigger: "#contact",
+                start: "top 80%"
+            },
+            opacity: 0,
+            x: 20,
+            duration: 1
+        });
+
+        // 8. Stats Counter Animation
+        gsap.utils.toArray('h4.fw-800').forEach(stat => {
+            const targetValue = parseInt(stat.innerText);
+            if (!isNaN(targetValue)) {
+                gsap.from(stat, {
+                    scrollTrigger: {
+                        trigger: stat,
+                        start: "top 90%"
+                    },
+                    innerText: 0,
+                    duration: 2,
+                    snap: { innerText: 1 },
+                    ease: "power2.out"
+                });
+            }
+        });
+    </script>
+    <script>
+        document.getElementById('view-more-btn').addEventListener('click', function () {
+            const hiddenProjects = document.querySelectorAll('.project-hidden');
+            const isShowing = this.innerText === "View Less";
+
+            hiddenProjects.forEach(project => {
+                if (isShowing) {
+                    project.classList.add('d-none');
+                } else {
+                    project.classList.remove('d-none');
+                    // Optional: Add a small fade-in effect
+                    project.style.opacity = 0;
+                    setTimeout(() => { project.style.opacity = 1; project.style.transition = "0.5s"; }, 10);
+                }
+            });
+
+            this.innerText = isShowing ? "View All Projects" : "View Less";
+        });
+
+
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
